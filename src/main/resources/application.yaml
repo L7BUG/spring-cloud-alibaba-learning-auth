@@ -1,0 +1,19 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: df80f680-5e6d-513d-aa1d-d948cc6056c8
+    url: jdbc:mysql://gz-cynosdbmysql-grp-3g2f2hi3.sql.tencentcdb.com:26001/file?allowMultiQueries=true&autoReconnect=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+  application:
+    name: file-service
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  redis:
+    host: localhost
+    port: 6373
+    database: 1
