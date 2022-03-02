@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>spring-cloud-alibaba-learning-auth</artifactId>
-    <version>0.01</version>
+    <version>0.0.01</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
