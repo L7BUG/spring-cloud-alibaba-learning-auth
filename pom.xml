@@ -14,8 +14,8 @@
 	<version>0.0.01</version>
 
 	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
 
 
@@ -59,6 +59,12 @@
 		<dependency>
 			<groupId>com.byaoh.cloud</groupId>
 			<artifactId>spring-cloud-alibaba-learning-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 </project>

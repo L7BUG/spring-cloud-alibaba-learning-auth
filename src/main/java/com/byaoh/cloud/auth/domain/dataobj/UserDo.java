@@ -1,4 +1,4 @@
-package com.byaoh.cloud.auth.model.dataobj;
+package com.byaoh.cloud.auth.domain.dataobj;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -24,7 +24,7 @@ public class UserDo {
 	@GeneratedValue(generator = "long_id")
 	@GenericGenerator(name = "long_id", strategy = "com.byaoh.cloud")
 	private Long id;
-	private SnowflakeGenerator a;
+	
 	@NotBlank(message = "用户名不能为空")
 	@Column(name = "username", unique = true, length = 32, nullable = false)
 	private String username;

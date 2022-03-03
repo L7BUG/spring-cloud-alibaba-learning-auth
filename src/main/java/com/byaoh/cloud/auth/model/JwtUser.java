@@ -1,6 +1,6 @@
 package com.byaoh.cloud.auth.model;
 
-import com.byaoh.cloud.auth.model.dataobj.UserDo;
+import com.byaoh.cloud.auth.domain.dataobj.UserDo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 /**
- *认证对象
+ * 认证对象
  *
  * @author luliangyu
  * @date 2022-03-03 10:19
@@ -52,6 +52,6 @@ public class JwtUser implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return Objects.equals(userDo.getStatus(),1);
+		return Objects.equals(userDo.getStatus(), 1);
 	}
 }
