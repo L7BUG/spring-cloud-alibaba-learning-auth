@@ -13,10 +13,10 @@ import java.util.Objects;
  * @author luliangyu
  * @date 2022-03-03 10:19
  */
-public class JwtUser implements UserDetails {
+public class LoginUser implements UserDetails {
 	private final UserDo userDo;
 
-	public JwtUser(UserDo userDo) {
+	public LoginUser(UserDo userDo) {
 		this.userDo = userDo;
 	}
 

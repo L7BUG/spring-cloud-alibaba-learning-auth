@@ -1,6 +1,8 @@
 package com.byaoh.cloud.auth.domain.dataobj;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -15,8 +17,10 @@ import java.util.Collection;
  * @author luliangyu
  * @date 2022-03-03 10:28
  */
+@Getter
+@Setter
+@ToString
 @Entity
-@Data
 @Table(name = "user")
 public class UserDo {
 
@@ -24,7 +28,7 @@ public class UserDo {
 	@GeneratedValue(generator = "long_id")
 	@GenericGenerator(name = "long_id", strategy = "com.byaoh.cloud")
 	private Long id;
-	
+
 	@NotBlank(message = "用户名不能为空")
 	@Column(name = "username", unique = true, length = 32, nullable = false)
 	private String username;
