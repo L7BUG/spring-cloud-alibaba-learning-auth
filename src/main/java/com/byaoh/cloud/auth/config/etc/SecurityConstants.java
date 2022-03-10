@@ -34,6 +34,8 @@ public interface SecurityConstants {
 	 * 登陆地址
 	 */
 	String AUTH_LOGIN_URL = "/auth/login";
+
+	String AUTH_LOGOUT_URL = "/auth/logout";
 	/**
 	 * jwt 请求头
 	 */

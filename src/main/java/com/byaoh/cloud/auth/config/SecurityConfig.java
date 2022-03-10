@@ -17,6 +17,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 /**
  * @author l
@@ -30,9 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	/** 用户认证接口 */
 	private final UserDetailsService userDetailsService;
 
-	public SecurityConfig(JwtAuthorizationFilter jwtAuthorizationFilter, UserDetailsService userDetailsService) {
+	private final LogoutHandler logoutHandler;
+
+	public SecurityConfig(JwtAuthorizationFilter jwtAuthorizationFilter, UserDetailsService userDetailsService, LogoutHandler logoutHandler) {
 		this.jwtAuthorizationFilter = jwtAuthorizationFilter;
 		this.userDetailsService = userDetailsService;
+		this.logoutHandler = logoutHandler;
 	}
 
 	@Bean
@@ -56,11 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			// 放行登陆
 			.antMatchers(HttpMethod.POST, SecurityConstants.AUTH_LOGIN_URL).permitAll()
+			// 白名单
 			.antMatchers(SecurityConstants.FILTER_WHITELIST).permitAll()
 			// 其他全部不放行
 			.anyRequest().authenticated()
 			.and()
-			.addFilter(jwtAuthorizationFilter)
+			.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 			// 禁用session
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()

@@ -1,11 +1,11 @@
 package com.byaoh.cloud.auth.filter;
 
-import com.byaoh.cloud.auth.config.etc.SecurityConstants;
-import com.byaoh.cloud.auth.utils.JwtTokenUtils;
-import org.springframework.data.redis.core.RedisTemplate;
+import com.byaoh.cloud.auth.model.LoginUser;
+import com.byaoh.cloud.auth.service.AuthService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
@@ -23,34 +23,27 @@ import java.io.IOException;
  */
 @Component
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
-	private final RedisTemplate<String, String> stringRedisTemplate;
+	/**
+	 * 认证服务
+	 */
+	private final AuthService authService;
 
-	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, RedisTemplate<String, String> stringRedisTemplate) {
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, AuthService authService) {
 		super(authenticationManager);
-		this.stringRedisTemplate = stringRedisTemplate;
+		this.authService = authService;
 	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-		String authorization = request.getHeader(SecurityConstants.TOKEN_HEADER);
-//        如果没有 就放行
-		if (authorization == null || !authorization.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-			SecurityContextHolder.clearContext();
-			chain.doFilter(request, response);
-			return;
+		LoginUser loginUser = authService.getLoginUser(request);
+		// 请求中包含token 并且 security中获取不到认证信息
+		if (loginUser != null && SecurityContextHolder.getContext().getAuthentication() != null) {
+			// 延期
+			authService.verifyToken(loginUser.getToken());
+			UsernamePasswordAuthenticationToken securityToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+			securityToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			SecurityContextHolder.getContext().setAuthentication(securityToken);
 		}
-		String token = authorization.replace(SecurityConstants.TOKEN_PREFIX, "");
-		String username = JwtTokenUtils.getUsernameByToken(token);
-		String redisToken = stringRedisTemplate.opsForValue().get("token:" + username);
-//        如果与redis中的不一致 就清空并放行
-		if (redisToken == null && !redisToken.equals(token)) {
-			SecurityContextHolder.clearContext();
-			chain.doFilter(request, response);
-			return;
-		}
-//        向security中添加 token
-		UsernamePasswordAuthenticationToken authentication = JwtTokenUtils.getAuthentication(token, username);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
 		chain.doFilter(request, response);
 	}
 }

@@ -14,10 +14,25 @@ import java.util.Objects;
  * @date 2022-03-03 10:19
  */
 public class LoginUser implements UserDetails {
+	private static final long serialVersionUID = 3673555967785529388L;
 	private final UserDo userDo;
+
+	/**
+	 * token
+	 */
+	private String token;
 
 	public LoginUser(UserDo userDo) {
 		this.userDo = userDo;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public LoginUser setToken(String token) {
+		this.token = token;
+		return this;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * UserDO
@@ -42,6 +43,6 @@ public class UserDo {
 	private Integer status;
 
 	public Collection<GrantedAuthority> authorities() {
-		return null;
+		return List.of();
 	}
 }
