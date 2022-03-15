@@ -4,6 +4,7 @@ import com.byaoh.cloud.auth.config.etc.SecurityConstants;
 import com.byaoh.cloud.auth.exception.JwtAccessDeniedHandler;
 import com.byaoh.cloud.auth.exception.JwtAuthenticationEntryPoint;
 import com.byaoh.cloud.auth.filter.JwtAuthorizationFilter;
+import com.byaoh.cloud.auth.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -18,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 /**
  * @author l
@@ -27,22 +27,21 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	/** 认证拦截器 */
-	private final JwtAuthorizationFilter jwtAuthorizationFilter;
 	/** 用户认证接口 */
 	private final UserDetailsService userDetailsService;
 
-	private final LogoutHandler logoutHandler;
+	private final AuthService authService;
 
-	public SecurityConfig(JwtAuthorizationFilter jwtAuthorizationFilter, UserDetailsService userDetailsService, LogoutHandler logoutHandler) {
-		this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+	public SecurityConfig(UserDetailsService userDetailsService, AuthService authService) {
 		this.userDetailsService = userDetailsService;
-		this.logoutHandler = logoutHandler;
+		this.authService = authService;
 	}
 
 	@Bean
 	public PasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		System.err.println(bCryptPasswordEncoder.encode("10fd5907-c8bc-59eb-af07"));
+		return bCryptPasswordEncoder;
 	}
 
 	@Bean
@@ -66,7 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			// 其他全部不放行
 			.anyRequest().authenticated()
 			.and()
-			.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+			.headers().frameOptions().disable();
+		http.addFilterBefore(new JwtAuthorizationFilter(authenticationManager(), authService), UsernamePasswordAuthenticationFilter.class)
 			// 禁用session
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()

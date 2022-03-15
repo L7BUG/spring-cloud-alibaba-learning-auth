@@ -1,7 +1,5 @@
 package com.byaoh.cloud.auth.exception;
 
-import com.byaoh.cloud.common.web.Result;
-import com.byaoh.cloud.common.web.ResultFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -24,7 +22,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request,
 						 HttpServletResponse response,
 						 AuthenticationException authException) throws IOException {
-		Result<String> build = ResultFactory.build(1, "", "");
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType("application/json; charset=UTF-8");
 	}

@@ -5,7 +5,6 @@ import com.byaoh.cloud.auth.model.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,14 +26,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	static {
 		SYSTEM_USERNAME = "bf870eca-8f00-5e52-8777";
-		SYSTEM_PASSWORD = "10fd5907-c8bc-59eb-af07";
+		SYSTEM_PASSWORD = "$2a$10$u4HXH5LyNuvSa31j8ihM6OJDrm5actFK8By7K5FhQy60xVQP070JC";
 	}
 
-	private final PasswordEncoder passwordEncoder;
-
-	public UserDetailsServiceImpl(PasswordEncoder passwordEncoder) {
-		this.passwordEncoder = passwordEncoder;
-	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -48,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		UserDo userDo = new UserDo();
 		userDo.setStatus(1);
 		userDo.setUsername(SYSTEM_USERNAME);
-		userDo.setPassword(passwordEncoder.encode(SYSTEM_PASSWORD));
+		userDo.setPassword(SYSTEM_PASSWORD);
 		return new LoginUser(userDo);
 	}
 }

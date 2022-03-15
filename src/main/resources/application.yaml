@@ -18,3 +18,5 @@ spring:
     port: 10000
     database: 0
     password: "!@#$%^&*--"
+common:
+  system-user-id: 122333

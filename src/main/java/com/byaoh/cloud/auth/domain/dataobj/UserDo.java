@@ -3,10 +3,12 @@ package com.byaoh.cloud.auth.domain.dataobj;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -26,8 +28,6 @@ import java.util.List;
 public class UserDo {
 
 	@Id
-	@GeneratedValue(generator = "long_id")
-	@GenericGenerator(name = "long_id", strategy = "com.byaoh.cloud")
 	private Long id;
 
 	@NotBlank(message = "用户名不能为空")

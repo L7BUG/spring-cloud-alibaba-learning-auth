@@ -6,12 +6,11 @@
 	<parent>
 		<groupId>com.byaoh.cloud</groupId>
 		<artifactId>spring-cloud-alibaba-learning-parent</artifactId>
-		<version>0.0.28</version>
+		<version>0.0.32</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<artifactId>spring-cloud-alibaba-learning-auth</artifactId>
-	<version>0.0.01</version>
 
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
@@ -55,12 +54,10 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.byaoh.cloud</groupId>
-			<artifactId>spring-cloud-alibaba-learning-common</artifactId>
+			<artifactId>spring-cloud-alibaba-learning-starter</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
