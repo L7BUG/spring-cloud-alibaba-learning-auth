@@ -4,6 +4,7 @@ import com.byaoh.cloud.auth.config.etc.SecurityConstants;
 import com.byaoh.cloud.auth.domain.dataobj.UserDo;
 import com.byaoh.cloud.auth.model.LoginUser;
 import com.byaoh.cloud.common.CommonProperties;
+import com.byaoh.cloud.framework.enums.StatusEnum;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private UserDetails systemUser() {
 		UserDo userDo = new UserDo();
 		userDo.setId(systemId);
-		userDo.setStatus(1);
+		userDo.setStatus(StatusEnum.ENABLE);
 		userDo.setUsername(SecurityConstants.SYSTEM_USERNAME);
 		userDo.setPassword(SecurityConstants.SYSTEM_PASSWORD);
 		LoginUser loginUser = new LoginUser();
