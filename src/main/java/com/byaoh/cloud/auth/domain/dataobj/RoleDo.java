@@ -1,6 +1,7 @@
 package com.byaoh.cloud.auth.domain.dataobj;
 
 import com.byaoh.cloud.common.dataobj.BaseDo;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,6 +21,7 @@ import javax.persistence.UniqueConstraint;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 @Table(name = "role", uniqueConstraints = {
 	@UniqueConstraint(name = "uc_roledo_name", columnNames = {"name"})
 })

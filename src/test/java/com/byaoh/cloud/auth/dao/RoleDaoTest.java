@@ -24,7 +24,7 @@ class RoleDaoTest {
 	@Test
 	void saveTest() {
 		RoleDo entity = new RoleDo();
-		entity.setName("测试");
+		entity.setName("开发");
 		roleDao.save(entity);
 	}
 }

@@ -25,14 +25,14 @@ class UserRoleDaoTest {
 	@Test
 	void saveTest() {
 		UserRoleDo entity = new UserRoleDo();
-		entity.setRoleId(1506286656333094912L);
+		entity.setRoleId(1506290279691595776L);
 		entity.setUserId(1506286500686622720L);
 		userRoleDao.save(entity);
 	}
 
 	@Test
-	void findByIdTest() {
+	void findAllTest() {
 		List<UserRoleDo> all = userRoleDao.findAll();
-		System.out.println("all = " + all);
+		System.err.println("all = " + all);
 	}
 }

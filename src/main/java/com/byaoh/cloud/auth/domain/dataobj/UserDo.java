@@ -6,13 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * UserDO
@@ -41,5 +40,11 @@ public class UserDo extends BaseDo implements Serializable {
 	@Enumerated
 	@Column(name = "status")
 	private StatusEnum status;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role",
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<RoleDo> roles = new LinkedHashSet<>();
 
 }
