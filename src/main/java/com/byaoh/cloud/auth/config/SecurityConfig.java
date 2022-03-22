@@ -4,7 +4,6 @@ import com.byaoh.cloud.auth.config.etc.SecurityConstants;
 import com.byaoh.cloud.auth.exception.JwtAccessDeniedHandler;
 import com.byaoh.cloud.auth.exception.JwtAuthenticationEntryPoint;
 import com.byaoh.cloud.auth.filter.JwtAuthorizationFilter;
-import com.byaoh.cloud.auth.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -30,18 +29,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	/** 用户认证接口 */
 	private final UserDetailsService userDetailsService;
 
-	private final AuthService authService;
+	private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
-	public SecurityConfig(UserDetailsService userDetailsService, AuthService authService) {
+	public SecurityConfig(UserDetailsService userDetailsService, JwtAuthorizationFilter jwtAuthorizationFilter) {
 		this.userDetailsService = userDetailsService;
-		this.authService = authService;
+		this.jwtAuthorizationFilter = jwtAuthorizationFilter;
 	}
 
 	@Bean
 	public PasswordEncoder bCryptPasswordEncoder() {
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		System.err.println(bCryptPasswordEncoder.encode("10fd5907-c8bc-59eb-af07"));
-		return bCryptPasswordEncoder;
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
@@ -66,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().authenticated()
 			.and()
 			.headers().frameOptions().disable();
-		http.addFilterBefore(new JwtAuthorizationFilter(authenticationManager(), authService), UsernamePasswordAuthenticationFilter.class)
+		http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 			// 禁用session
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()

@@ -1,11 +1,15 @@
 package com.byaoh.cloud.auth.service.impl;
 
+import com.byaoh.cloud.auth.config.etc.SecurityConstants;
 import com.byaoh.cloud.auth.domain.dataobj.UserDo;
 import com.byaoh.cloud.auth.model.LoginUser;
+import com.byaoh.cloud.common.CommonProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 /**
  * UserDetailsServiceImpl
@@ -15,24 +19,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	/**
-	 * 系统内置帐号
-	 */
-	private static final String SYSTEM_USERNAME;
-	/***
-	 * 系统内置密码
-	 */
-	private static final String SYSTEM_PASSWORD;
+	private final Long systemId;
 
-	static {
-		SYSTEM_USERNAME = "bf870eca-8f00-5e52-8777";
-		SYSTEM_PASSWORD = "$2a$10$u4HXH5LyNuvSa31j8ihM6OJDrm5actFK8By7K5FhQy60xVQP070JC";
+	public UserDetailsServiceImpl(CommonProperties commonProperties) {
+		this.systemId = commonProperties.getSystemUserId();
 	}
-
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		if (SYSTEM_USERNAME.equals(username)) {
+		if (SecurityConstants.SYSTEM_USERNAME.equals(username)) {
 			return systemUser();
 		}
 		return null;
@@ -40,9 +35,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private UserDetails systemUser() {
 		UserDo userDo = new UserDo();
+		userDo.setId(systemId);
 		userDo.setStatus(1);
-		userDo.setUsername(SYSTEM_USERNAME);
-		userDo.setPassword(SYSTEM_PASSWORD);
-		return new LoginUser(userDo);
+		userDo.setUsername(SecurityConstants.SYSTEM_USERNAME);
+		userDo.setPassword(SecurityConstants.SYSTEM_PASSWORD);
+		LoginUser loginUser = new LoginUser();
+		loginUser.setUserDo(userDo);
+		loginUser.setPermissionSet(Set.of("admin"));
+		return loginUser;
 	}
 }

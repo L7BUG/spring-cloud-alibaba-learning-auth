@@ -1,5 +1,9 @@
 package com.byaoh.cloud.auth.exception;
 
+import com.byaoh.cloud.framework.web.Result;
+import com.byaoh.cloud.framework.web.ResultCode;
+import com.byaoh.cloud.framework.web.ResultFactory;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -24,5 +28,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 						 AuthenticationException authException) throws IOException {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType("application/json; charset=UTF-8");
+		Result<Void> result = ResultFactory.build(ResultCode.UNAUTHORIZED);
+		JsonMapper.builder().build().writeValue(response.getWriter(), result);
 	}
 }

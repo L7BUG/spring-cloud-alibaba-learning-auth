@@ -1,11 +1,17 @@
 package com.byaoh.cloud.auth.model;
 
 import com.byaoh.cloud.auth.domain.dataobj.UserDo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 认证对象
@@ -13,58 +19,56 @@ import java.util.Objects;
  * @author luliangyu
  * @date 2022-03-03 10:19
  */
+@Getter
+@Setter
 public class LoginUser implements UserDetails {
 	private static final long serialVersionUID = 3673555967785529388L;
-	private final UserDo userDo;
+	private UserDo userDo;
 
 	/**
 	 * token
 	 */
-	private String token;
+	private String userToken;
 
-	public LoginUser(UserDo userDo) {
-		this.userDo = userDo;
-	}
+	private Set<String> permissionSet;
 
-	public String getToken() {
-		return token;
-	}
-
-	public LoginUser setToken(String token) {
-		this.token = token;
-		return this;
-	}
-
+	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return userDo.authorities();
+		return permissionSet.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
 	}
 
+	@JsonIgnore
 	@Override
 	public String getPassword() {
 		return userDo.getPassword();
 	}
 
+	@JsonIgnore
 	@Override
 	public String getUsername() {
 		return userDo.getUsername();
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
+	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
 		return Objects.equals(userDo.getStatus(), 1);

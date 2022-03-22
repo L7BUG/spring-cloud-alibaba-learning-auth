@@ -28,7 +28,7 @@ public final class JwtTokenUtils {
 	 * @param roles    null 会创建没有角色信息的令牌
 	 * @return
 	 */
-	public static String createToken(String username, List<String> roles) {
+	public static String createToken(String username, Set<String> roles) {
 		JwtBuilder builder = Jwts.builder();
 		if (roles != null) {
 			Map<String, Object> map = new HashMap<>();
@@ -39,7 +39,6 @@ public final class JwtTokenUtils {
 			.signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
 			.setIssuer(SecurityConstants.ISS)
 			.setSubject(username)
-			.setIssuedAt(new Date())
 			.compact();
 	}
 

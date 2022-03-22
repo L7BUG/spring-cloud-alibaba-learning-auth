@@ -1,9 +1,5 @@
 package com.byaoh.cloud.auth.service;
 
-import com.byaoh.cloud.auth.model.LoginUser;
-
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * 认证service
  *
@@ -11,18 +7,21 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2022-03-10 13:59
  */
 public interface AuthService {
-	/**
-	 * 根据request 获取login对象
-	 *
-	 * @param request 请求
-	 * @return 不存在 返回null
-	 */
-	LoginUser getLoginUser(HttpServletRequest request);
 
 	/**
-	 * 给令牌延期 只有 < 1小时过期的才会延期
+	 * 登陆
 	 *
-	 * @param token 令牌
+	 * @param username 用户名
+	 * @param password 密码
+	 * @return token
 	 */
-	void verifyToken(String token);
+	String login(String username, String password);
+
+	/**
+	 * 校验自己有没有权限
+	 *
+	 * @param permission 权限名称
+	 * @return true 拥有改权限
+	 */
+	boolean hasPermission(String permission);
 }

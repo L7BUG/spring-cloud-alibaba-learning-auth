@@ -49,4 +49,12 @@ public interface SecurityConstants {
 	 * 过期时间
 	 */
 	long EXPIRATION = 1000L * 60 * 60 * 6;
+	/**
+	 * 系统内置帐号
+	 */
+	String SYSTEM_USERNAME = "bf870eca-8f00-5e52-8777";
+	/***
+	 * 系统内置密码
+	 */
+	String SYSTEM_PASSWORD = "$2a$10$SQS2FB2OEQwPZk.MdiauoO0EErpji.Z4cAttTN.iiCUH1IXSVjud.";
 }

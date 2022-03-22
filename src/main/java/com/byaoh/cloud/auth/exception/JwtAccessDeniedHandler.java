@@ -1,5 +1,9 @@
 package com.byaoh.cloud.auth.exception;
 
+import com.byaoh.cloud.framework.web.Result;
+import com.byaoh.cloud.framework.web.ResultCode;
+import com.byaoh.cloud.framework.web.ResultFactory;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -21,5 +25,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		response.setContentType("application/json; charset=UTF-8");
+		Result<Void> result = ResultFactory.build(ResultCode.FORBIDDEN);
+		JsonMapper.builder().build().writeValue(response.getWriter(), result);
 	}
 }
