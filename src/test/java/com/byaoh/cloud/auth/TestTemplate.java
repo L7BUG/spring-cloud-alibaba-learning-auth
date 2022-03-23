@@ -2,8 +2,6 @@ package com.byaoh.cloud.auth;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * TestTemp
@@ -11,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author luliangyu
  * @date 2021-11-30 13:49
  */
-@Transactional
-@Rollback
+// @Transactional
+// @Rollback
 @SpringBootTest(classes = AuthApp.class)
 public abstract class TestTemplate {
 	// @MockBean
