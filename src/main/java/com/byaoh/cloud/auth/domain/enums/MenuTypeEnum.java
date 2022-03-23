@@ -9,8 +9,17 @@ import com.byaoh.cloud.framework.base.BaseEnum;
  * @date 2022/3/23 下午5:40
  */
 public enum MenuTypeEnum implements BaseEnum<Integer> {
+	/**
+	 * 目录
+	 */
 	DIRECTORY(0, "目录"),
+	/**
+	 * 页面
+	 */
 	PAGE(1, "页面"),
+	/**
+	 * 权限
+	 */
 	PERMISSION(2, "权限"),
 	;
 	public final int type;
