@@ -39,11 +39,11 @@ public class UserRoleDo extends BaseDo {
 	private Long roleId;
 
 	@OneToOne(targetEntity = UserDo.class)
-	@JoinColumn(name = "user_id", insertable = false, updatable = false)
+	@JoinColumn(name = "user_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private UserDo user;
 
 	@OneToOne(targetEntity = RoleDo.class)
-	@JoinColumn(name = "role_id", insertable = false, updatable = false)
+	@JoinColumn(name = "role_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private RoleDo role;
 
 }

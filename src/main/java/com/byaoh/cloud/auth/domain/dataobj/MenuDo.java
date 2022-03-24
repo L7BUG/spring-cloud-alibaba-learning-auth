@@ -6,13 +6,15 @@ import com.byaoh.cloud.common.dataobj.BaseDo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * 菜单
@@ -44,9 +46,9 @@ public class MenuDo extends BaseDo {
 	@Column(nullable = false, length = 64)
 	private String code;
 
+	@Column(name = "type")
+	@NotNull(message = "菜单类型不能为空")
 	@Convert(converter = MenuTypeConverter.class)
-	@Enumerated
-	@Column(nullable = false)
 	private MenuTypeEnum type;
 
 	/**
@@ -72,12 +74,24 @@ public class MenuDo extends BaseDo {
 
 
 	@ToString.Exclude
-	@ManyToOne(optional = false)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JoinColumn(name = "father_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private MenuDo father;
 
-	@OneToMany(mappedBy = "father", orphanRemoval = true, fetch = FetchType.EAGER)
-	private List<MenuDo> menus = new ArrayList<>();
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "father", cascade = {CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true)
+	private Set<MenuDo> child = new LinkedHashSet<>();
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+		MenuDo menuDo = (MenuDo) o;
+		return getId() != null && Objects.equals(getId(), menuDo.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
+	}
 }
