@@ -1,16 +1,18 @@
 package com.byaoh.cloud.auth.domain.dataobj;
 
-import com.byaoh.cloud.common.dataobj.BaseDo;
+import com.byaoh.cloud.auth.domain.enums.MenuTypeEnum;
+import com.byaoh.cloud.common.dataobj.SnowFlakeDo;
 import com.byaoh.cloud.framework.enums.StatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -24,7 +26,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "user")
-public class UserDo extends BaseDo implements Serializable {
+public class UserDo extends SnowFlakeDo {
 
 	private static final long serialVersionUID = -933566060022443956L;
 
@@ -43,8 +45,38 @@ public class UserDo extends BaseDo implements Serializable {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role",
+		foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT),
+		inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT),
 		joinColumns = @JoinColumn(name = "user_id"),
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<RoleDo> roles = new LinkedHashSet<>();
 
+	public Set<MenuDo> rootMenu() {
+		Set<MenuDo> rootMenus = new LinkedHashSet<>();
+		for (RoleDo role : this.roles) {
+			role.getMenus().stream().filter(item -> item.getFather() == null).forEach(rootMenus::add);
+		}
+		return rootMenus;
+	}
+
+	public Set<String> permissionsSet() {
+		Set<String> permissionsSet = new LinkedHashSet<>();
+		for (RoleDo role : this.roles) {
+			role.getMenus().stream().filter(item -> Objects.equals(item.getType(), MenuTypeEnum.PERMISSION)).map(MenuDo::getCode).forEach(permissionsSet::add);
+		}
+		return permissionsSet;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+		UserDo userDo = (UserDo) o;
+		return getId() != null && Objects.equals(getId(), userDo.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
+	}
 }

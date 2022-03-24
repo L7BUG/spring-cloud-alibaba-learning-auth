@@ -1,6 +1,6 @@
 package com.byaoh.cloud.auth.domain.dataobj;
 
-import com.byaoh.cloud.common.dataobj.BaseDo;
+import com.byaoh.cloud.common.dataobj.SnowFlakeDo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "user_role", uniqueConstraints = {
 	@UniqueConstraint(name = "uc_userroledo_user_id_role_id", columnNames = {"user_id", "role_id"})
 })
-public class UserRoleDo extends BaseDo {
+public class UserRoleDo extends SnowFlakeDo {
 	private static final long serialVersionUID = -7042812558147296613L;
 
 	/**

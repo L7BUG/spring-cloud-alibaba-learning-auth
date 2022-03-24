@@ -2,7 +2,7 @@ package com.byaoh.cloud.auth.domain.dataobj;
 
 import com.byaoh.cloud.auth.domain.dataobj.converter.MenuTypeConverter;
 import com.byaoh.cloud.auth.domain.enums.MenuTypeEnum;
-import com.byaoh.cloud.common.dataobj.BaseDo;
+import com.byaoh.cloud.common.dataobj.SnowFlakeDo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,7 +29,7 @@ import java.util.Set;
 @Table(name = "menu", uniqueConstraints = {
 	@UniqueConstraint(name = "uc_menudo_code", columnNames = {"code"})
 })
-public class MenuDo extends BaseDo {
+public class MenuDo extends SnowFlakeDo {
 	private static final long serialVersionUID = 1410880265808434184L;
 
 	/**

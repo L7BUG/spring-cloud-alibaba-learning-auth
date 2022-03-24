@@ -1,14 +1,11 @@
 package com.byaoh.cloud.auth.domain.dataobj;
 
-import com.byaoh.cloud.common.dataobj.BaseDo;
+import com.byaoh.cloud.common.dataobj.SnowFlakeDo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -24,7 +21,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "role_menu", uniqueConstraints = {
 	@UniqueConstraint(name = "uc_rolemenudo_roleid_menuid", columnNames = {"role_id", "menu_id"})
 })
-public class RoleMenuDo extends BaseDo {
+public class RoleMenuDo extends SnowFlakeDo {
 	private static final long serialVersionUID = 807967596821537082L;
 
 	/**
@@ -40,4 +37,12 @@ public class RoleMenuDo extends BaseDo {
 	@NotNull(message = "菜单id不能为空")
 	@Column(name = "menu_id", nullable = false)
 	private Long menuId;
+
+	@OneToOne
+	@JoinColumn(name = "role_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	private RoleDo role;
+
+	@OneToOne
+	@JoinColumn(name = "menu_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	private MenuDo menu;
 }
