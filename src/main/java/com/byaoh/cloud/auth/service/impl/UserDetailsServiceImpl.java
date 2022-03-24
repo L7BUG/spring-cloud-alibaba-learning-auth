@@ -1,6 +1,7 @@
 package com.byaoh.cloud.auth.service.impl;
 
 import com.byaoh.cloud.auth.config.etc.SecurityConstants;
+import com.byaoh.cloud.auth.dao.UserDao;
 import com.byaoh.cloud.auth.domain.dataobj.UserDo;
 import com.byaoh.cloud.auth.model.LoginUser;
 import com.byaoh.cloud.common.CommonProperties;
@@ -22,8 +23,11 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 	private final Long systemId;
 
-	public UserDetailsServiceImpl(CommonProperties commonProperties) {
+	private final UserDao userDao;
+
+	public UserDetailsServiceImpl(CommonProperties commonProperties, UserDao userDao) {
 		this.systemId = commonProperties.getSystemUserId();
+		this.userDao = userDao;
 	}
 
 	@Override
@@ -31,6 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (SecurityConstants.SYSTEM_USERNAME.equals(username)) {
 			return systemUser();
 		}
+		UserDo user = userDao.findByUsername(username);
 		return null;
 	}
 
