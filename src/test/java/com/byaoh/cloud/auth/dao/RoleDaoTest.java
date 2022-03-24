@@ -1,6 +1,5 @@
 package com.byaoh.cloud.auth.dao;
 
-import com.byaoh.cloud.auth.domain.dataobj.RoleDo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,8 +22,5 @@ class RoleDaoTest {
 
 	@Test
 	void saveTest() {
-		RoleDo entity = new RoleDo();
-		entity.setName("开发");
-		roleDao.save(entity);
 	}
 }

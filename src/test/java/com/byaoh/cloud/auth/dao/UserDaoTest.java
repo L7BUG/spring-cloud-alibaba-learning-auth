@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -41,10 +40,5 @@ class UserDaoTest {
 
 	@Test
 	void findAllTest() {
-		List<UserDo> all = userDao.findAll();
-		for (UserDo userDo : all) {
-			System.out.println("userDo = " + userDo);
-			System.out.println("userDo.getRoles() = " + userDo.getRoles());
-		}
 	}
 }

@@ -77,7 +77,6 @@ public class MenuDo extends BaseDo {
 	@JoinColumn(name = "father_id", insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private MenuDo father;
 
-	// @JoinColumn(name = "father_id", insertable = false, updatable = false)
 	@OneToMany(mappedBy = "father", orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<MenuDo> menus = new ArrayList<>();
 
