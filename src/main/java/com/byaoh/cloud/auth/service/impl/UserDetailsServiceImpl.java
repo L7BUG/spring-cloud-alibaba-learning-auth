@@ -36,7 +36,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			return systemUser();
 		}
 		UserDo user = userDao.findByUsername(username);
+		if (user != null) {
+		}
 		return null;
+	}
+
+	private LoginUser userDoToLoginUser(UserDo user) {
+		return new LoginUser();
 	}
 
 	private UserDetails systemUser() {
@@ -46,7 +52,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		userDo.setUsername(SecurityConstants.SYSTEM_USERNAME);
 		userDo.setPassword(SecurityConstants.SYSTEM_PASSWORD);
 		LoginUser loginUser = new LoginUser();
-		loginUser.setUserDo(userDo);
 		loginUser.setPermissionSet(Set.of("admin"));
 		return loginUser;
 	}

@@ -3,6 +3,7 @@ package com.byaoh.cloud.auth.domain.dataobj;
 import com.byaoh.cloud.auth.domain.dataobj.converter.MenuTypeConverter;
 import com.byaoh.cloud.auth.domain.enums.MenuTypeEnum;
 import com.byaoh.cloud.common.dataobj.SnowFlakeDo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -73,6 +74,7 @@ public class MenuDo extends SnowFlakeDo {
 	private String icon;
 
 
+	@JsonIgnore
 	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.EAGER)
 	@NotFound(action = NotFoundAction.IGNORE)
