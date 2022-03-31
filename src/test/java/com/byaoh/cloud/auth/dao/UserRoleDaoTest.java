@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 @SpringBootTest
 class UserRoleDaoTest {
 	@Autowired
@@ -24,15 +22,13 @@ class UserRoleDaoTest {
 
 	@Test
 	void saveTest() {
-		UserRoleDo entity = new UserRoleDo();
-		entity.setRoleId(1506290279691595776L);
-		entity.setUserId(1506286500686622720L);
-		userRoleDao.save(entity);
+		UserRoleDo userRoleDo = new UserRoleDo();
+		userRoleDo.setUserId(1506956427225956352L);
+		userRoleDo.setRoleId(1506957128551350272L);
+		userRoleDao.save(userRoleDo);
 	}
 
 	@Test
 	void findAllTest() {
-		List<UserRoleDo> all = userRoleDao.findAll();
-		System.err.println("all = " + all);
 	}
 }

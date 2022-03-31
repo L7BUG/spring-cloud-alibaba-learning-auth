@@ -1,6 +1,7 @@
 package com.byaoh.cloud.auth.model;
 
-import com.byaoh.cloud.auth.domain.dataobj.UserDo;
+import com.byaoh.cloud.auth.domain.dataobj.MenuDo;
+import com.byaoh.cloud.framework.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,13 +24,25 @@ import java.util.stream.Collectors;
 @Setter
 public class LoginUser implements UserDetails {
 	private static final long serialVersionUID = 3673555967785529388L;
-	private UserDo userDo;
+	private String username;
+
+	private String password;
+
+	private Integer status;
 
 	/**
 	 * token
 	 */
 	private String userToken;
 
+	/**
+	 * 菜单
+	 */
+	private Set<MenuDo> menuSet;
+
+	/**
+	 * 权限
+	 */
 	private Set<String> permissionSet;
 
 	@JsonIgnore
@@ -41,13 +54,13 @@ public class LoginUser implements UserDetails {
 	@JsonIgnore
 	@Override
 	public String getPassword() {
-		return userDo.getPassword();
+		return password;
 	}
 
 	@JsonIgnore
 	@Override
 	public String getUsername() {
-		return userDo.getUsername();
+		return username;
 	}
 
 	@JsonIgnore
@@ -71,6 +84,6 @@ public class LoginUser implements UserDetails {
 	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
-		return Objects.equals(userDo.getStatus(), 1);
+		return Objects.equals(StatusEnum.ENABLE.status, status);
 	}
 }

@@ -12,15 +12,15 @@ public enum MenuTypeEnum implements BaseEnum<Integer> {
 	/**
 	 * 目录
 	 */
-	DIRECTORY(0, "目录"),
+	DIRECTORY(1, "目录"),
 	/**
 	 * 页面
 	 */
-	PAGE(1, "页面"),
+	PAGE(2, "页面"),
 	/**
 	 * 权限
 	 */
-	PERMISSION(2, "权限"),
+	PERMISSION(3, "权限"),
 	;
 	public final int type;
 	public final String desc;
@@ -28,6 +28,15 @@ public enum MenuTypeEnum implements BaseEnum<Integer> {
 	MenuTypeEnum(int type, String desc) {
 		this.type = type;
 		this.desc = desc;
+	}
+
+	public static MenuTypeEnum getByType(int type) {
+		for (MenuTypeEnum item : MenuTypeEnum.values()) {
+			if (item.type == type) {
+				return item;
+			}
+		}
+		return null;
 	}
 
 	@Override

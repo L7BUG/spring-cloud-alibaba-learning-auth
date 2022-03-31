@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.UUID;
+
 @SpringBootTest
 class RoleDaoTest {
 	@Autowired
@@ -24,7 +26,7 @@ class RoleDaoTest {
 	@Test
 	void saveTest() {
 		RoleDo entity = new RoleDo();
-		entity.setName("开发");
+		entity.setName(UUID.randomUUID().toString().substring(0, 32));
 		roleDao.save(entity);
 	}
 }
