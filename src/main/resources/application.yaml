@@ -4,8 +4,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: df80f680-5e6d-513d-aa1d-d948cc6056c8
-    url: jdbc:mysql://gz-cynosdbmysql-grp-3g2f2hi3.sql.tencentcdb.com:26001/cloud_auth?allowMultiQueries=true&autoReconnect=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    password: 123456
+    url: jdbc:mysql://localhost:3306/cloud_auth?allowMultiQueries=true&autoReconnect=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
   application:
     name: cloud-auth
   jpa:
